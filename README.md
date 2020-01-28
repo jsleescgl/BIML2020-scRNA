@@ -7,11 +7,11 @@ Single Cell RNA-seq Data processing and fundamental data interpretation
 1. Quality Control (Cell / Gene QC)
   Empty droplet filtering
   Removal of low quality cells
-2. Fundamental analysis pipeline for functional study
-  Normalization
-  Feature selection (highly variable genes)
-  Clustering
-  Identification of cell types
+2. Basic pipeline
+Normalization
+Feature selection (highly variable genes)
+Clustering
+Identification of cell types
 3. Further study
   Batch correction
   Trajectory inference
