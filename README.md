@@ -8,9 +8,13 @@ Single Cell RNA-seq Data processing and fundamental data interpretation
   Empty droplet filtering
   Removal of low quality cells
 2. Basic pipeline
-Normalization
-Feature selection (highly variable genes)
-Clustering
+
+ Normalization
+ 
+ Feature selection (highly variable genes)
+ 
+ Clustering
+ 
 Identification of cell types
 3. Further study
   Batch correction
