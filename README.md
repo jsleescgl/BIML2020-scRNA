@@ -4,27 +4,27 @@ PI: Jong Kyoung Kim, Tutorial Instructor: Jusung Lee
 Single Cell RNA-seq Data processing and fundamental data interpretation
 
 # Contents
-1. Quality Control (Cell / Gene QC)
+##1. Quality Control (Cell / Gene QC)
 
- Empty droplet filtering
+   Empty droplet filtering
  
- Removal of low quality cells
+   Removal of low quality cells
  
-2. Basic pipeline
+##2. Basic pipeline
 
- Normalization
+   Normalization
  
- Feature selection (highly variable genes)
+   Feature selection (highly variable genes)
  
- Clustering
+   Clustering
  
- Identification of cell types
+   Identification of cell types
  
-3. Further study
+##3. Further study
 
- Batch correction
+   Batch correction
  
- Trajectory inference
+   Trajectory inference
  
- Cell-Cell interaction (CCI)
+   Cell-Cell interaction (CCI)
  
