@@ -1,6 +1,7 @@
 # BIML 2020 Tutorial
 # Part 1. Cell QC
 # 10x genomics or DropSeq-based data QC
+# Dataset-1: Cancer Cell 37:37-54.e9 (2020)
 
 dirExp1='/BiO/sample/day1/basics/exp1/raw10x'
 dirExp2='/BiO/sample/day1/basics/exp2/raw10x'
