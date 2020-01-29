@@ -1,13 +1,4 @@
-library(DropletUtils)
-library(Seurat)
-library(sctransform)
-library(dplyr)
-library(scRNAseq)
-library(ggplot2)
-
-dirExp1='Q:\\BIML2020\\data\\2.Fundamental_pipeline\\exp1\\raw10x'
-dirExp2='Q:\\BIML2020\\data\\2.Fundamental_pipeline\\exp2\\raw10x'
-
+# Cancer Cell 37:37-54.e9 (2020)
 # experiment set1
 exp1_counts <- counts(sce_filt)
 
@@ -22,8 +13,9 @@ lung_tme_exp1 <- SCTransform(object = lung_tme_exp1, verbose = FALSE)
 # Perform dimensionality reduction by PCA and UMAP embedding
 
 # These are now standard steps in the Seurat workflow for visualization and clustering
+set.seed(123)
 lung_tme_exp1 <- RunPCA(object = lung_tme_exp1, verbose = FALSE)
-lung_tme_exp1 <- RunUMAP(object = lung_tme_exp1, dims = 1:30, verbose = FALSE)
+lung_tme_exp1 <- RunUMAP(object = lung_tme_exp1, dims = 1:15, verbose = FALSE)
 lung_tme_exp1 <- FindNeighbors(object = lung_tme_exp1, dims = 1:20, verbose = FALSE)
 lung_tme_exp1 <- FindClusters(object = lung_tme_exp1, verbose = FALSE, resolution = 1)
 
@@ -41,8 +33,9 @@ DimPlot(lung_tme_exp1, reduction = 'umap', label = T, label.size = 7.5)+
         panel.grid.minor=element_blank(),
         plot.background=element_blank())
 
-
-FeaturePlot(lung_tme_exp1, features = c('Ptprc','Cd3d','Cd3e','Cd3g','Cd19','Cd79a','Cd79b','Cd14','Fcgr3','Cd68','Irf8','Itgae','Itgax','Nkg7','S100a9','Cd200r3'), cols = c('#e0e0e0','#b2182b'), ncol = 4)+
+# c('Ptprc','Cd3d','Cd3e','Cd3g','Cd19','Cd79a','Cd79b'): lymphoid
+# c('Cd14','Fcgr3','Cd68','Irf8','Itgae','Itgax','Nkg7','S100a9','Cd200r3'): myeloid
+FeaturePlot(lung_tme_exp1, features = c('Ptprc','Cd3d','Cd3e','Cd3g','Cd4','Cd8a','Cd19','Cd79a','Cd79b'), cols = c('#e0e0e0','#b2182b'), ncol = 3)+
   theme(axis.line=element_blank(),
         axis.text.x=element_blank(),
         axis.text.y=element_blank(),
@@ -56,8 +49,7 @@ FeaturePlot(lung_tme_exp1, features = c('Ptprc','Cd3d','Cd3e','Cd3g','Cd19','Cd7
         panel.grid.minor=element_blank(),
         plot.background=element_blank())
 
-
-
+# SingleR - cell type annotation
 # singler - using signature based cell type ID (correlation-based)
 library(SingleR)
 immgen.se <- ImmGenData()
@@ -65,7 +57,7 @@ singler_sce=SingleCellExperiment(list(counts=lung_tme_exp1@assays$SCT@counts))
 logcounts(singler_sce)=lung_tme_exp1@assays$SCT@data
 
 pred.lung_exp1 <- SingleR(test = singler_sce, ref = immgen.se, labels = immgen.se$label.main)
-pred.lung_exp1$pruned.labels
+# pred.lung_exp1$pruned.labels
 
 identical(colnames(lung_tme_exp1), rownames(pred.lung_exp1))
 lung_tme_exp1$singler_ft_label=pred.lung_exp1$labels
@@ -85,7 +77,5 @@ DimPlot(lung_tme_exp1, reduction = 'umap', label = F, label.size = 7.5, group.by
         panel.grid.minor=element_blank(),
         plot.background=element_blank())
 
-saveRDS(lung_tme_exp1, file='Q:\\BIML2020\\data\\mouse_lung_SCLC\\lung_tme_exp1_seuratset.rds')
-
-
-lung_tme_exp1@meta.data
+# save dataset
+saveRDS(lung_tme_exp1, file='/BiO/sample/day1/basics/seuratset/lung_tme_exp1.rds')
