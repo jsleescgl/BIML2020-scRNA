@@ -1,3 +1,5 @@
+# reference tutorial: https://github.com/saeyslab/nichenetr/blob/master/vignettes/ligand_activity_geneset.md
+
 library(nichenetr)
 library(tidyverse)
 
