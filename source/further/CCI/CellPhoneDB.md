@@ -24,8 +24,10 @@ pip install cellphonedb
 
 # Running with statistical analysis
 4. Activate virtual-env if you have not activated previously
+
 source cpdb-venv/bin/activate
 
 
 5. Run in statistical analysis mode using the input files for metadata and counts
+
 cellphonedb method statistical_analysis test_meta.txt test_counts.txt
