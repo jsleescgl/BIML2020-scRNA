@@ -9,7 +9,8 @@ First, generate counts matrix (normalized) and metadata (including cell type or 
 Then, run CellPhoneDB with following commands,
 
 # CellPhoneDB run on linux (recommend to use cluster server or workstation)
-We highly recommend using a virtual environment (steps 1 and 2), but can be omitted.
+
+### We highly recommend using a virtual environment (steps 1 and 2), but can be omitted.
 
 1. Create python > 3.5 virtual-env
 python -m venv cpdb-venv
