@@ -28,3 +28,7 @@ Single Cell RNA-seq Data processing and fundamental data interpretation
  
    Cell-Cell interaction (CCI)
  
+# Dataset directory
+step-1: /BiO/sample/day1/basics/
+
+step-2: /BiO/sample/day1/advanced/
