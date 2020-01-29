@@ -19,6 +19,8 @@ hnscc <- RunPCA(object = hnscc, verbose = FALSE)
 hnscc <- RunUMAP(object = hnscc, dims = 1:30, verbose = FALSE)
 hnscc <- FindNeighbors(object = hnscc, dims = 1:20, verbose = FALSE)
 hnscc <- FindClusters(object = hnscc, verbose = FALSE, resolution = 1)
+
+# add patients information to metadata slot in seurat object
 hnscc$sample_info <- unlist(lapply(strsplit(colnames(hnscc), "-", fixed=TRUE) ,FUN=function(x){paste(x[1])}))
 
 DimPlot(hnscc, reduction = 'umap', label = F, label.size = 7.5, group.by = 'sample_info')
@@ -26,14 +28,15 @@ fig1=DimPlot(hnscc, reduction = 'umap', label = T, label.size = 7.5)
 fig2=DimPlot(hnscc, reduction = 'umap', label = T, label.size = 7.5, split.by = 'sample_info')
 plot_grid(fig1,fig2)
 
-
+# splitting seurat object by each patients
+# Normalization and feature selection (highly variable gene selection) - one more time by each patients
 hnscc.list <- SplitObject(hnscc, split.by = "sample_info")
 for (i in 1:length(hnscc.list)) {
   hnscc.list[[i]] <- NormalizeData(hnscc.list[[i]], verbose = FALSE)
   hnscc.list[[i]] <- FindVariableFeatures(hnscc.list[[i]], selection.method = "vst", nfeatures = 2000, verbose = FALSE)
 }
 
-
+# Data integration step (Seurat V3. Integration)
 hnscc.anchors <- FindIntegrationAnchors(object.list = hnscc.list, dims = 1:30)
 hnscc.integrated <- IntegrateData(anchorset = hnscc.anchors, dims = 1:30)
 
