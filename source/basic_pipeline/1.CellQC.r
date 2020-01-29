@@ -2,8 +2,8 @@
 # Part 1. Cell QC
 # 10x genomics or DropSeq-based data QC
 
-dirExp1='Q:\\BIML2020\\data\\2.Fundamental_pipeline\\exp1\\raw10x'
-dirExp2='Q:\\BIML2020\\data\\2.Fundamental_pipeline\\exp2\\raw10x'
+dirExp1='/BiO/sample/day1/basics/exp1/raw10x'
+dirExp2='/BiO/sample/day1/basics/exp2/raw10x'
 
 setwd(dirExp1)
 
@@ -23,11 +23,11 @@ my.counts=counts(sce)
 # barcode rank by total UMI counts
 br.out <- barcodeRanks(my.counts)
 
+# plotting by total umi counts
 # Making a plot.
 plot(br.out$rank, br.out$total, log="xy", xlab="Rank", ylab="Total")
 o <- order(br.out$rank)
 lines(br.out$rank[o], br.out$fitted[o], col="red")
-
 abline(h=metadata(br.out)$knee, col="dodgerblue", lty=2)
 abline(h=metadata(br.out)$inflection, col="forestgreen", lty=2)
 legend("bottomleft", lty=2, col=c("dodgerblue", "forestgreen"), 
@@ -41,6 +41,10 @@ e.out
 is.cell <- e.out$FDR < 0.01
 sum(is.cell, na.rm=TRUE) # result of this cmd = after filter out empty droplets
 
+# remove empty droplet
+sce_ne=sce[,which(is.cell)]
+sce_ne=sce_ne[rowSums(counts(sce_ne))>0,]
+
 # barcode rank by total UMI counts
 br.out_neRemoved <- barcodeRanks(counts(sce_ne))
 
@@ -48,15 +52,10 @@ br.out_neRemoved <- barcodeRanks(counts(sce_ne))
 plot(br.out_neRemoved$rank, br.out_neRemoved$total, log="xy", xlab="Rank", ylab="Total")
 o <- order(br.out_neRemoved$rank)
 lines(br.out_neRemoved$rank[o], br.out_neRemoved$fitted[o], col="red")
-
 abline(h=metadata(br.out_neRemoved)$knee, col="dodgerblue", lty=2)
 abline(h=metadata(br.out_neRemoved)$inflection, col="forestgreen", lty=2)
 legend("bottomleft", lty=2, col=c("dodgerblue", "forestgreen"), 
        legend=c("knee", "inflection"))
-
-# remove empty droplet
-sce_ne=sce[,which(is.cell)]
-sce_ne=sce_ne[rowSums(counts(sce_ne))>0,]
 
 
 ### Remove low quality cells based on total UMI counts and Mito-Genome mapped reads ratio per each cells
@@ -75,10 +74,9 @@ sce_ne <- runColDataPCA(sce_ne, variables=list("sum", "detected", "percent_top_5
 
 
 # Visualize each QC metric
-
 library(dplyr)
 library(RColorBrewer)
-qc.metric='log10Sum'
+qc.metric='subsets_Mito_percent'
 fig <- tibble(x = reducedDim(sce_ne)[,1],
               y = reducedDim(sce_ne)[,2],
               qc.metric = sce_ne@colData[, qc.metric]) %>%
@@ -143,5 +141,4 @@ sce_filt=sce_ne[,sce_ne$QC==1]
 
 # Gene filtering: remove genes which have all zero value across whole cells
 sce_filt=sce_filt[rowSums(counts(sce_filt))>0,]
-
-saveRDS(sce_filt, file='Q:\\BIML2020\\data\\mouse_lung_SCLC\\sce_filt.rds')
+saveRDS(sce_filt, file='/BiO/sample/day1/basics/sce/sce_filt.rds')
