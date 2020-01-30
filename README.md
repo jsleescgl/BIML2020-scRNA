@@ -32,3 +32,6 @@ Single Cell RNA-seq Data processing and fundamental data interpretation
 step-1: /BiO/sample/day1/basics/
 
 step-2: /BiO/sample/day1/advanced/
+
+
+contact: jsleescgl@dgist.ac.kr
