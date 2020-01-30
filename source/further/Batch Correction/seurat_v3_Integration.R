@@ -1,7 +1,7 @@
 # BIML 2020 Tutorial
 # Part 3. Batch correction
 # 10x genomics or DropSeq-based data QC
-hnscc_umiCounts <- readRDS("Q:/BIML2020/data/3.Further/batch_correction/hnscc_umiCounts.rds")
+hnscc_umiCounts <- readRDS("/BiO/sample/day1/advanced/BatchCorrection/hnscc_umiCounts.rds")
 
 library(Seurat)
 library(cowplot)
@@ -63,6 +63,4 @@ p2 <- DimPlot(hnscc.integrated, reduction = "umap", label = TRUE, repel = TRUE) 
 plot_grid(p1, p2)
 
 
-setwd('Q:\\BIML2020\\data\\3.Further\\batch_correction')
 saveRDS(hnscc.integrated, file = 'hnscc.integrated.rds')
-# saveRDS(counts, file = 'hnscc_umiCounts.rds')
