@@ -1,8 +1,12 @@
 # BIML 2020 Tutorial
 # Part 3. Batch correction
 # 10x genomics or DropSeq-based data QC
-hnscc_umiCounts <- readRDS("Q:/BIML2020/data/3.Further/batch_correction/hnscc_umiCounts.rds")
+library(devtools)
+library(harmony)
+# install_github("immunogenomics/harmony") ### run this command, when your R-env don't have harmony library
+library(dplyr)
 
+hnscc_umiCounts <- readRDS("/BiO/sample/day1/advanced/BatchCorrection/hnscc_umiCounts.rds")
 
 library(Seurat)
 hnscc <- CreateSeuratObject(counts = hnscc_umiCounts)
@@ -26,11 +30,11 @@ fig2=DimPlot(hnscc, reduction = 'umap', label = T, label.size = 7.5, split.by = 
 plot_grid(fig1,fig2)
 
 library(cowplot)
-library(harmony)
-
 options(repr.plot.height = 2.5, repr.plot.width = 6)
+
+set.seed(123456)
 hnscc <- hnscc %>% 
-  RunHarmony("sample_info", plot_convergence = TRUE, max.iter.harmony = 100)
+  RunHarmony("sample_info", plot_convergence = F, max.iter.harmony = 100)
 
 hnscc <- hnscc %>% 
   RunUMAP(reduction = "harmony", dims = 1:20) %>% 
@@ -39,7 +43,4 @@ hnscc <- hnscc %>%
   identity()
 
 DimPlot(hnscc, reduction = 'umap', label = T, label.size = 7.5, group.by = 'sample_info')
-
-setwd('Q:\\BIML2020\\data\\3.Further\\batch_correction')
 saveRDS(hnscc, file = 'hnscc_harmony.rds')
-# saveRDS(counts, file = 'hnscc_umiCounts.rds')
