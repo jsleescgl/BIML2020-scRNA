@@ -6,12 +6,12 @@ library(scRNAseq)
 library(monocle3)
 library(scater)
 library(leidenbase)
-
-setwd("Q:/BIML2020/data/3.Further/trajectory_data/kidney/")
-trajectory_counts <- readRDS("Q:/BIML2020/data/3.Further/trajectory_data/kidney/trajectory_counts.rds")
+dir("/BiO/sample/day1/advanced/CelltypeID_Trajectory/")
+setwd("/BiO/sample/day1/advanced/CelltypeID_Trajectory/")
+trajectory_counts <- readRDS("/BiO/sample/day1/advanced/CelltypeID_Trajectory/trajectory_counts.rds")
 dim(trajectory_counts)
 
-kidney_trajectory <- readRDS("Q:/BIML2020/data/3.Further/trajectory_data/kidney/kidney_trajectory.rds")
+kidney_trajectory <- readRDS("kidney_trajectory.rds")
 kidney_trajectory$region <- unlist(lapply(strsplit(colnames(kidney_trajectory), "-", fixed=TRUE) ,FUN=function(x){paste(x[1])}))
 
 identical(colnames(trajectory_counts), colnames(kidney_trajectory))
